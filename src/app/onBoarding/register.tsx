@@ -11,19 +11,19 @@ import {
   View,
 } from "react-native";
 import Toast from "react-native-toast-message";
-import Card from "../components/Card";
-import Background from "../components/GradientBackground";
-import Button from "../components/GradientButton";
-import Input from "../components/Input";
-import { Colors } from "../constants/Colors";
-import { theme } from "../constants/theme";
-import { useAuth } from "../contexts/AuthContext";
-import { scaleHeight } from "../utils/responsive";
+import Card from "../../components/Card";
+import Background from "../../components/GradientBackground";
+import Button from "../../components/GradientButton";
+import Input from "../../components/Input";
+import { Colors } from "../../constants/Colors";
+import { theme } from "../../constants/theme";
+import { useAuth } from "../../contexts/AuthContext";
+import { scaleHeight, scaleWidth } from "../../utils/responsive";
 import {
   validateEmail,
   validateFullName,
   validatePassword,
-} from "../utils/validation";
+} from "../../utils/validation";
 
 export default function RegisterScreen() {
   const [fullName, setFullName] = useState("");
@@ -47,7 +47,7 @@ export default function RegisterScreen() {
   // Redirect authenticated users to home
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace("/home");
+      router.replace("/(protected)/home");
     }
   }, [isAuthenticated, router]);
 
@@ -108,7 +108,7 @@ export default function RegisterScreen() {
         type: "success",
         text1: "Success!",
         text2: "Your account has been created. Please login to continue.",
-        onHide: () => router.push("/login"),
+        onHide: () => router.push("/onBoarding/login"),
         visibilityTime: 3000,
       });
       // Fallback navigation in case onHide doesn't trigger as expected or for immediate feedback if preferred,
@@ -119,7 +119,7 @@ export default function RegisterScreen() {
       // The original code forced navigation on "OK".
       // Let's use a timeout to navigate.
       setTimeout(() => {
-        router.push("/login");
+        router.push("/onBoarding/login");
       }, 2000);
     } else {
       Toast.show({
@@ -131,7 +131,7 @@ export default function RegisterScreen() {
   }, [fullName, email, password, register, router]);
 
   const navigateToLogin = useCallback(() => {
-    router.push("/login");
+    router.push("/onBoarding/login");
   }, [router]);
 
   const displayErrors = useMemo(
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    borderRadius: scaleWidth(50),
     backgroundColor: Colors.white,
     justifyContent: "center",
     alignItems: "center",

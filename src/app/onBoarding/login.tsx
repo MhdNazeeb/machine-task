@@ -11,14 +11,14 @@ import {
   View,
 } from "react-native";
 import Toast from "react-native-toast-message";
-import Card from "../components/Card";
-import Background from "../components/GradientBackground";
-import Button from "../components/GradientButton";
-import Input from "../components/Input";
-import { Colors } from "../constants/Colors";
-import { theme } from "../constants/theme";
-import { useAuth } from "../contexts/AuthContext";
-import { scaleHeight } from "../utils/responsive";
+import Card from "../../components/Card";
+import Background from "../../components/GradientBackground";
+import Button from "../../components/GradientButton";
+import Input from "../../components/Input";
+import { Colors } from "../../constants/Colors";
+import { theme } from "../../constants/theme";
+import { useAuth } from "../../contexts/AuthContext";
+import { scaleHeight } from "../../utils/responsive";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -47,7 +47,7 @@ export default function LoginScreen() {
     setLoading(false);
 
     if (result.success) {
-      router.replace("/home");
+      router.replace("/(protected)/home");
     } else {
       Toast.show({
         type: "error",
@@ -58,7 +58,7 @@ export default function LoginScreen() {
   }, [email, password, login, router, isFormValid]);
 
   const navigateToRegister = useCallback(() => {
-    router.push("/register");
+    router.push("/onBoarding/register");
   }, [router]);
 
   return (

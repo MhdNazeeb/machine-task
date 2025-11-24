@@ -10,17 +10,17 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
-import Card from "../components/Card";
-import Background from "../components/GradientBackground";
-import Button from "../components/GradientButton";
-import LoadingSpinner from "../components/LoadingSpinner";
-import { Colors } from "../constants/Colors";
-import { theme } from "../constants/theme";
-import { useAuth } from "../contexts/AuthContext";
-import { useFirstLogin } from "../hooks/useFirstLogin";
-import { useLocation } from "../hooks/useLocation";
-import { useNotifications } from "../hooks/useNotifications";
-import { scaleHeight } from "../utils/responsive";
+import Card from "../../components/Card";
+import Background from "../../components/GradientBackground";
+import Button from "../../components/GradientButton";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import { Colors } from "../../constants/Colors";
+import { theme } from "../../constants/theme";
+import { useAuth } from "../../contexts/AuthContext";
+import { useFirstLogin } from "../../hooks/useFirstLogin";
+import { useLocation } from "../../hooks/useLocation";
+import { useNotifications } from "../../hooks/useNotifications";
+import { scaleHeight } from "../../utils/responsive";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -83,12 +83,6 @@ export default function HomeScreen() {
     }
   }, [hasRequestedPermissions, refetchLocation]);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.replace("/login");
-    }
-  }, [isAuthenticated, router]);
-
   const handleLogout = useCallback(() => {
     Alert.alert("Logout", "Are you sure you want to logout?", [
       { text: "Cancel", style: "cancel" },
@@ -97,7 +91,7 @@ export default function HomeScreen() {
         style: "destructive",
         onPress: async () => {
           await logout();
-          router.replace("/login");
+          router.replace("/onBoarding/login");
         },
       },
     ]);
