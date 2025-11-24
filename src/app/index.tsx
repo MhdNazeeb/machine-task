@@ -5,14 +5,11 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function IndexScreen() {
   const { isAuthenticated, isLoading } = useAuth();
+  const href = isAuthenticated ? "/(protected)/home" : "/onBoarding/login";
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
-  if (isAuthenticated) {
-    return <Redirect href="/(protected)/home" />;
-  }
-
-  return <Redirect href="/onBoarding/login" />;
+  return <Redirect href={href} />;
 }
