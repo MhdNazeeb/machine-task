@@ -1,7 +1,12 @@
-import { useCallback } from 'react';
-import * as Notifications from 'expo-notifications';
-import { Platform } from 'react-native';
-import Toast from 'react-native-toast-message';
+import * as Notifications from "expo-notifications";
+import { useCallback } from "react";
+import Toast from "react-native-toast-message";
+import {
+  LOG_MESSAGES,
+  NOTIFICATION_MESSAGES,
+  TOAST_TITLES,
+  TOAST_TYPES,
+} from "../constants/strings";
 
 // Configure notification handler
 Notifications.setNotificationHandler({
@@ -18,16 +23,16 @@ export const useNotifications = () => {
   const sendNotification = useCallback(async (title: string, body: string) => {
     try {
       const { status } = await Notifications.getPermissionsAsync();
-      
-      if (status !== 'granted') {
+
+      if (status !== "granted") {
         Toast.show({
-          type: 'error',
-          text1: 'Permission Required',
-          text2: 'Please enable notifications in settings to receive updates.',
+          type: TOAST_TYPES.ERROR,
+          text1: NOTIFICATION_MESSAGES.PERMISSION_REQUIRED,
+          text2: NOTIFICATION_MESSAGES.ENABLE_IN_SETTINGS,
         });
         return;
       }
-      
+
       await Notifications.scheduleNotificationAsync({
         content: {
           title,
@@ -37,30 +42,30 @@ export const useNotifications = () => {
         },
         trigger: null, // Send immediately
       });
-      
+
       Toast.show({
-        type: 'success',
-        text1: 'Success',
-        text2: 'Notification sent!',
+        type: TOAST_TYPES.SUCCESS,
+        text1: TOAST_TITLES.SUCCESS,
+        text2: NOTIFICATION_MESSAGES.NOTIFICATION_SENT,
       });
     } catch (error) {
-      console.error('Error sending notification:', error);
+      console.error(LOG_MESSAGES.ERROR_SENDING_NOTIFICATION, error);
       Toast.show({
-        type: 'error',
-        text1: 'Error',
-        text2: 'Failed to send notification',
+        type: TOAST_TYPES.ERROR,
+        text1: TOAST_TITLES.ERROR,
+        text2: NOTIFICATION_MESSAGES.FAILED_TO_SEND,
       });
     }
   }, []);
-  
+
   // Send a test notification
   const sendTestNotification = useCallback(async () => {
     await sendNotification(
-      '💊 HealthConnect',
-      'This is a test notification from your health companion!'
+      NOTIFICATION_MESSAGES.TEST_TITLE,
+      NOTIFICATION_MESSAGES.TEST_BODY
     );
   }, [sendNotification]);
-  
+
   return {
     sendNotification,
     sendTestNotification,

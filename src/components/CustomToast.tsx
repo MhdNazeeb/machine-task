@@ -1,20 +1,11 @@
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { BaseToast, ErrorToast, ToastConfig } from "react-native-toast-message";
 import { Colors } from "../constants/Colors";
 import { theme } from "../constants/theme";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
-/*
-  1. Create the config
-  2. Pass the config as prop to the Toast component instance
-*/
 
 const toastConfig: ToastConfig = {
-  /*
-    Overwrite 'success' type,
-    by modifying the existing `BaseToast` component
-  */
   success: (props) => (
     <BaseToast
       {...props}
@@ -50,10 +41,7 @@ const toastConfig: ToastConfig = {
       )}
     />
   ),
-  /*
-    Overwrite 'error' type,
-    by modifying the existing `ErrorToast` component
-  */
+
   error: (props) => (
     <ErrorToast
       {...props}
@@ -89,10 +77,7 @@ const toastConfig: ToastConfig = {
       )}
     />
   ),
-  /*
-    Or create a completely new type - 'info',
-    building the layout from scratch.
-  */
+
   info: (props) => (
     <BaseToast
       {...props}

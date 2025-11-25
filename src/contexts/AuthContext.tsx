@@ -1,19 +1,20 @@
 import React, {
   createContext,
-  useContext,
-  useState,
-  useCallback,
-  useMemo,
-  useEffect,
   ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
 } from "react";
+import { AUTH_ERRORS, LOG_MESSAGES } from "../constants/strings";
 import {
+  clearCurrentUser,
+  getCurrentUser,
   getUser,
   saveUser,
-  User,
-  getCurrentUser,
   setCurrentUser,
-  clearCurrentUser,
+  User,
 } from "../utils/storage";
 import { validateRegistration } from "../utils/validation";
 
@@ -50,7 +51,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
           setUser(currentUser);
         }
       } catch (error) {
-        console.error("Error loading user session:", error);
+        console.error(LOG_MESSAGES.ERROR_LOADING_USER, error);
       } finally {
         setIsLoading(false);
       }
@@ -63,19 +64,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       const existingUser = await getUser(email);
 
       if (!existingUser) {
-        return { success: false, error: "No account found with this email" };
+        return { success: false, error: AUTH_ERRORS.NO_ACCOUNT };
       }
 
       if (existingUser.password !== password) {
-        return { success: false, error: "Incorrect password" };
+        return { success: false, error: AUTH_ERRORS.INCORRECT_PASSWORD };
       }
 
       setUser(existingUser);
       await setCurrentUser(existingUser);
       return { success: true };
     } catch (error) {
-      console.error("Login error:", error);
-      return { success: false, error: "An error occurred during login" };
+      console.error(LOG_MESSAGES.LOGIN_ERROR, error);
+      return { success: false, error: AUTH_ERRORS.LOGIN_FAILED };
     }
   }, []);
 
@@ -94,7 +95,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         if (existingUser) {
           return {
             success: false,
-            error: "An account with this email already exists",
+            error: AUTH_ERRORS.ACCOUNT_EXISTS,
           };
         }
 
@@ -104,10 +105,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
         return { success: true };
       } catch (error) {
-        console.error("Registration error:", error);
+        console.error(LOG_MESSAGES.REGISTRATION_ERROR, error);
         return {
           success: false,
-          error: "An error occurred during registration",
+          error: AUTH_ERRORS.REGISTRATION_FAILED,
         };
       }
     },
@@ -139,7 +140,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error(AUTH_ERRORS.CONTEXT_ERROR);
   }
   return context;
 };

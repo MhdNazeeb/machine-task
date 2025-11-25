@@ -1,4 +1,5 @@
 import { moderateScale, scaleFont, screenHeight, screenWidth } from '../utils/responsive';
+import { BREAKPOINTS } from './strings';
 
 export const theme = {
   // Screen dimensions
@@ -76,9 +77,9 @@ export const theme = {
 } as const;
 
 // Responsive helper
-export const isSmallDevice = screenWidth < 375;
-export const isMediumDevice = screenWidth >= 375 && screenWidth < 414;
-export const isLargeDevice = screenWidth >= 414;
+export const isSmallDevice = screenWidth < BREAKPOINTS.SMALL;
+export const isMediumDevice = screenWidth >= BREAKPOINTS.SMALL && screenWidth < BREAKPOINTS.LARGE;
+export const isLargeDevice = screenWidth >= BREAKPOINTS.LARGE;
 
-// Responsive size helper (deprecated, prefer using utils/responsive directly)
+// Responsive size helper
 export const responsiveSize = (size: number) => moderateScale(size);

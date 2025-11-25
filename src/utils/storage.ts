@@ -1,8 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const USERS_KEY = '@healthconnect_users';
-const FIRST_LOGIN_KEY = '@healthconnect_first_login';
-const CURRENT_USER_KEY = '@healthconnect_current_user';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  CURRENT_USER_KEY,
+  FIRST_LOGIN_KEY,
+  USERS_KEY,
+} from "../constants/strings";
 
 export interface User {
   fullName: string;
@@ -17,7 +18,7 @@ export const saveUser = async (user: User): Promise<void> => {
     existingUsers.push(user);
     await AsyncStorage.setItem(USERS_KEY, JSON.stringify(existingUsers));
   } catch (error) {
-    console.error('Error saving user:', error);
+    console.error("Error saving user:", error);
     throw error;
   }
 };
@@ -26,9 +27,11 @@ export const saveUser = async (user: User): Promise<void> => {
 export const getUser = async (email: string): Promise<User | null> => {
   try {
     const users = await getAllUsers();
-    return users.find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
+    return (
+      users.find((u) => u.email.toLowerCase() === email.toLowerCase()) || null
+    );
   } catch (error) {
-    console.error('Error getting user:', error);
+    console.error("Error getting user:", error);
     return null;
   }
 };
@@ -39,7 +42,7 @@ export const getAllUsers = async (): Promise<User[]> => {
     const usersJson = await AsyncStorage.getItem(USERS_KEY);
     return usersJson ? JSON.parse(usersJson) : [];
   } catch (error) {
-    console.error('Error getting all users:', error);
+    console.error("Error getting all users:", error);
     return [];
   }
 };
@@ -49,11 +52,11 @@ export const isFirstLogin = async (email: string): Promise<boolean> => {
   try {
     const firstLoginData = await AsyncStorage.getItem(FIRST_LOGIN_KEY);
     if (!firstLoginData) return true;
-    
+
     const loginRecords: Record<string, boolean> = JSON.parse(firstLoginData);
     return !loginRecords[email];
   } catch (error) {
-    console.error('Error checking first login:', error);
+    console.error("Error checking first login:", error);
     return true;
   }
 };
@@ -62,24 +65,24 @@ export const isFirstLogin = async (email: string): Promise<boolean> => {
 export const setFirstLoginComplete = async (email: string): Promise<void> => {
   try {
     const firstLoginData = await AsyncStorage.getItem(FIRST_LOGIN_KEY);
-    const loginRecords: Record<string, boolean> = firstLoginData 
-      ? JSON.parse(firstLoginData) 
+    const loginRecords: Record<string, boolean> = firstLoginData
+      ? JSON.parse(firstLoginData)
       : {};
-    
+
     loginRecords[email] = true;
     await AsyncStorage.setItem(FIRST_LOGIN_KEY, JSON.stringify(loginRecords));
   } catch (error) {
-    console.error('Error setting first login complete:', error);
+    console.error("Error setting first login complete:", error);
     throw error;
   }
 };
 
-// Clear all storage (for testing)
+// Clear all storage
 export const clearStorage = async (): Promise<void> => {
   try {
     await AsyncStorage.clear();
   } catch (error) {
-    console.error('Error clearing storage:', error);
+    console.error("Error clearing storage:", error);
     throw error;
   }
 };
@@ -89,7 +92,7 @@ export const setCurrentUser = async (user: User): Promise<void> => {
   try {
     await AsyncStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
   } catch (error) {
-    console.error('Error saving current user:', error);
+    console.error("Error saving current user:", error);
     throw error;
   }
 };
@@ -100,18 +103,17 @@ export const getCurrentUser = async (): Promise<User | null> => {
     const userJson = await AsyncStorage.getItem(CURRENT_USER_KEY);
     return userJson ? JSON.parse(userJson) : null;
   } catch (error) {
-    console.error('Error getting current user:', error);
+    console.error("Error getting current user:", error);
     return null;
   }
 };
 
-// Clear current logged-in user (logout)
+// Clear current logged-in user
 export const clearCurrentUser = async (): Promise<void> => {
   try {
     await AsyncStorage.removeItem(CURRENT_USER_KEY);
   } catch (error) {
-    console.error('Error clearing current user:', error);
+    console.error("Error clearing current user:", error);
     throw error;
   }
 };
-

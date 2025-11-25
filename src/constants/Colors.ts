@@ -1,12 +1,12 @@
 export const Colors = {
   // Professional minimal palette
-  primary: '#2563EB', // Professional blue
+  primary: '#2563EB', 
   primaryLight: '#3B82F6',
   primaryDark: '#1D4ED8',
-  primaryGradient: ['#2563EB', '#60A5FA', '#93C5FD'], // Vibrant blue gradient
-  dangerGradient: ['#EF4444', '#F87171', '#FCA5A5'], // Vibrant red gradient
+  primaryGradient: ['#2563EB', '#60A5FA', '#93C5FD'], 
+  dangerGradient: ['#EF4444', '#F87171', '#FCA5A5'],
   
-  // Neutral colors (professional)
+  // Neutral colors 
   white: '#FFFFFF',
   background: '#F8FAFC',
   backgroundSecondary: '#F1F5F9',
