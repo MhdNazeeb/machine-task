@@ -111,13 +111,6 @@ export default function RegisterScreen() {
         onHide: () => router.push("/onBoarding/login"),
         visibilityTime: 3000,
       });
-      // Fallback navigation in case onHide doesn't trigger as expected or for immediate feedback if preferred,
-      // but onHide is better for letting the user see the toast.
-      // However, to mimic the Alert behavior where the user presses OK, we might want to delay navigation.
-      // Toast doesn't block execution like Alert.
-      // Let's just navigate after a short delay or rely on the user to navigate?
-      // The original code forced navigation on "OK".
-      // Let's use a timeout to navigate.
       setTimeout(() => {
         router.push("/onBoarding/login");
       }, 2000);
