@@ -81,7 +81,7 @@ export default function HomeScreen() {
     if (hasRequestedPermissions) {
       refetchLocation();
     }
-  }, [hasRequestedPermissions]);
+  }, [hasRequestedPermissions, refetchLocation]);
 
   const handleLogout = useCallback(() => {
     Alert.alert("Logout", "Are you sure you want to logout?", [
